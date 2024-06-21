@@ -1,0 +1,40 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        def dfs(node, current_sum):
+            nonlocal count
+            if not node:
+                return
+        
+        # Update the current sum
+            current_sum += node.val
+        
+        # Check if there is a path ending at the current node that sums to targetSum
+            if current_sum == targetSum:
+                count += 1
+        
+        # Check the number of valid paths that sum to (current_sum - targetSum)
+            count += prefix_sums.get(current_sum - targetSum, 0)
+        
+        # Update the hashmap with the current sum
+            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
+        
+        # Process left and right children
+            dfs(node.left, current_sum)
+            dfs(node.right, current_sum)
+        
+        # Backtrack: remove the current sum from the hashmap
+            prefix_sums[current_sum] -= 1
+            if prefix_sums[current_sum] == 0:
+                del prefix_sums[current_sum]
+    
+        count = 0
+        prefix_sums = {}
+        dfs(root, 0)
+        return count
+        
