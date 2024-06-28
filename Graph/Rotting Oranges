@@ -1,0 +1,35 @@
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        queue = deque()
+        fresh_count = 0
+    
+        # Initialize the queue with all initial rotten oranges and count fresh oranges
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 2:
+                    queue.append((r, c, 0))  # (row, col, time)
+                elif grid[r][c] == 1:
+                    fresh_count += 1
+    
+        # Directions for moving up, down, left, and right
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        time_elapsed = 0
+    
+        # Perform BFS
+        while queue:
+            row, col, time_elapsed = queue.popleft()
+        
+            for dr, dc in directions:
+                new_row, new_col = row + dr, col + dc
+                if 0 <= new_row < rows and 0 <= new_col < cols and grid[new_row][new_col] == 1:
+                # Rot the fresh orange
+                    grid[new_row][new_col] = 2
+                    fresh_count -= 1
+                    queue.append((new_row, new_col, time_elapsed + 1))
+    
+        # If there are still fresh oranges left, return -1
+        if fresh_count > 0:
+            return -1
+        else:
+            return time_elapsed
