@@ -1,0 +1,28 @@
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        if not nums:
+            return []
+    
+        if k == 1:
+            return nums
+    
+        deq = deque()
+        result = []
+    
+        for i in range(len(nums)):
+        # Remove indices that are out of the bounds of the current window
+            if deq and deq[0] == i - k:
+                deq.popleft()
+        
+        # Remove elements from the back that are smaller than the current element
+            while deq and nums[deq[-1]] < nums[i]:
+                deq.pop()
+        
+        # Add the current index
+            deq.append(i)
+        
+        # If window has reached size k, append the maximum (element at the front of deque)
+            if i >= k - 1:
+                result.append(nums[deq[0]])
+    
+        return result
