@@ -1,1 +1,21 @@
-
+class Solution:
+    def isValid(self, s: str) -> bool:
+        matching_bracket = {')': '(', '}': '{', ']': '['}
+    
+    # Stack to keep track of opening brackets
+        stack = []
+    
+    # Traverse each character in the string
+        for char in s:
+            if char in matching_bracket:
+            # If char is a closing bracket, check stack
+                if stack and stack[-1] == matching_bracket[char]:
+                    stack.pop()  # pop the matching opening bracket
+                else:
+                    return False
+            else:
+            # If char is an opening bracket, push it onto the stack
+                stack.append(char)
+    
+    # If stack is empty, all brackets are matched correctly
+        return not stack
